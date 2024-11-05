@@ -10,6 +10,13 @@ type Query {
     users(
       name: String @where(operator: "like")
     ): [User!]! @paginate(defaultCount: 10)
+
+    categories: [Category!]! @all
+    category(id: ID!): Category @find
+    brands: [Brand!]! @all
+    brand(id: ID!): Brand @find
+    products: [Product!]! @all
+    product: Product @find
 }
 
 type User {
@@ -19,4 +26,80 @@ type User {
     email_verified_at: DateTime
     created_at: DateTime!
     updated_at: DateTime!
+}
+type Category {
+  id: ID!
+  name: String!
+  slug: String!
+  products: [Product!]! @hasmany
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+type Brand {
+  id: ID!
+  name: String!
+  slug: String!
+  products: [Product!]! @hasmany
+}
+type Product {
+  id: ID!
+  name: String!
+  slug: String!
+  price: Float
+  qty: Int
+  category: Category! @belongsTo
+  brand: Brand! @belongsTo
+  created_at: DateTime!
+  updated_at: DateTime
+}
+
+
+# All Imput
+
+input CreateCategoryInput {
+  name: String! @rules(apply: ["required","string","max:225","min:5"])
+  slug: String!
+}
+input UpdateCategoryInput {
+  name: String!
+  slug: String!
+}
+
+input CreateBrandInput {
+  name: String!
+  slug: String!
+}
+input UpdateBrandInput{
+  name:String!
+  slug: String!
+}
+input CreateProductInput {
+  name: String!
+  slug: String!
+  price: Float
+  qty: Int
+  category_id: ID
+  brand_id: ID
+}
+input UpdateProductInput {
+  name: String!
+  slug: String!
+  price: Float
+  qty: Int
+  category_id: ID
+  brand_id: ID
+}
+
+type Mutation {
+  createCategory(input: CreateCategoryInput @spread): Category @create(model: "App\\Models\\Category")
+  updateCategory(input: UpdateCategoryInput!): Category @update(model: "App\\Models\\Category")
+
+
+  createBrand(input: CreateBrandInput!): Brand @create(model: "App\\Models\\Brand")
+  updateBrand(input: UpdateBrandInput!): Brand @update(model: "App\\Models\\Brand")
+ 
+
+  createProduct(input: CreateProductInput!): Product @create(model: "App\\Models\\Product")
+  updateProduct(input: UpdateProductInput!): Product @update(model: "App\\Models\\Product")
+  
 }
