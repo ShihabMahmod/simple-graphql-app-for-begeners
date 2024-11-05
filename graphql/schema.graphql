@@ -57,42 +57,42 @@ type Product {
 # All Imput
 
 input CreateCategoryInput {
-  name: String! @rules(apply: ["required","string","max:225","min:5"])
-  slug: String!
+  name: String! @validate(rules: ["required", "string", "max:255"])
+  slug: String! @validate(rules: ["required", "string", "max:255"])
 }
 input UpdateCategoryInput {
-  name: String!
-  slug: String!
+  name: String! @validate(rules: ["required", "string", "max:255"])
+  slug: String! @validate(rules: ["required", "string", "max:255"])
 }
 
 input CreateBrandInput {
-  name: String!
-  slug: String!
+  name: String! @validate(rules: ["required", "string", "max:255"])
+  slug: String! @validate(rules: ["required", "string", "max:255"])
 }
 input UpdateBrandInput{
-  name:String!
-  slug: String!
+  name:String! @validate(rules: ["required", "string", "max:255"])
+  slug: String! @validate(rules: ["required", "string", "max:255"])
 }
 input CreateProductInput {
-  name: String!
-  slug: String!
-  price: Float
-  qty: Int
+  name: String! @validate(rules: ["required", "string", "max:255"])
+  slug: String! @validate(rules: ["required", "string", "max:255"])
+  price: Float @validate(rules: ["required", "float",])
+  qty: Int     @validate(rules: ["required", "integer",])
   category_id: ID
   brand_id: ID
 }
 input UpdateProductInput {
-  name: String!
-  slug: String!
-  price: Float
-  qty: Int
+  name: String! @validate(rules: ["required", "string", "max:255"])
+  slug: String! @validate(rules: ["required", "string", "max:255"])
+  price: Float @validate(rules: ["required", "float",])
+  qty: Int     @validate(rules: ["required", "integer",])
   category_id: ID
   brand_id: ID
 }
 
 type Mutation {
   createCategory(input: CreateCategoryInput @spread): Category @create(model: "App\\Models\\Category")
-  updateCategory(input: UpdateCategoryInput!): Category @update(model: "App\\Models\\Category")
+  updateCategory(input: UpdateCategoryInput @spread): Category @update(model: "App\\Models\\Category")
 
 
   createBrand(input: CreateBrandInput!): Brand @create(model: "App\\Models\\Brand")
