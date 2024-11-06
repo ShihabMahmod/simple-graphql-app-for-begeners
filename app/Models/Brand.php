@@ -12,4 +12,11 @@ class Brand extends Model
     {
         return $this->hasMany(Product::class);
     }
+
+    protected static function booted()
+    {
+        static::deleting(function($brand){
+            $brand->products()->delete();
+        });
+    }
 }

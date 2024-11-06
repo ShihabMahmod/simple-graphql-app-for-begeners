@@ -96,10 +96,13 @@ input UpdateProductInput {
 type Mutation {
   createCategory(input: CreateCategoryInput @spread): Category @create(model: "App\\Models\\Category")
   updateCategory(input: UpdateCategoryInput @spread): Category @update(model: "App\\Models\\Category")
+  deleteCategory(id: ID! @whereKey): Category! @delete
 
 
   createBrand(input: CreateBrandInput @spread): Brand @create(model: "App\\Models\\Brand")
   updateBrand(input: UpdateBrandInput @spread): Brand @update(model: "App\\Models\\Brand")
+  deleteBrand(id: ID! @whereKey): Brand! @delete
+
  
 
   createProduct(input: CreateProductInput @spread): Product @create(model: "App\\Models\\Product")
