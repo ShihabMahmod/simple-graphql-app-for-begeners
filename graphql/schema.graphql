@@ -104,6 +104,6 @@ type Mutation {
 
   createProduct(input: CreateProductInput @spread): Product @create(model: "App\\Models\\Product")
   updateProduct(input: UpdateProductInput @spread): Product @update(model: "App\\Models\\Product")
-  deleteProduct(id: ID @spread): Boolean @delete(model: "App\\Models\\Product")
+  deleteProduct(id: ID! @whereKey): Product! @delete
   
 }
