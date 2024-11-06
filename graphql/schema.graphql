@@ -61,6 +61,7 @@ input CreateCategoryInput {
   slug: String! @validate(rules: ["required", "string", "max:255"])
 }
 input UpdateCategoryInput {
+  id: ID! @validate(rules: ["required", "string", "max:255"])
   name: String! @validate(rules: ["required", "string", "max:255"])
   slug: String! @validate(rules: ["required", "string", "max:255"])
 }
@@ -70,6 +71,7 @@ input CreateBrandInput {
   slug: String! @validate(rules: ["required", "string", "max:255"])
 }
 input UpdateBrandInput{
+  id: ID! @validate(rules: ["required", "string", "max:255"])
   name:String! @validate(rules: ["required", "string", "max:255"])
   slug: String! @validate(rules: ["required", "string", "max:255"])
 }
@@ -82,6 +84,7 @@ input CreateProductInput {
   brand_id: ID
 }
 input UpdateProductInput {
+  id: ID! @rules(apply: ["required", "exists:products,id"])
   name: String! @validate(rules: ["required", "string", "max:255"])
   slug: String! @validate(rules: ["required", "string", "max:255"])
   price: Float @validate(rules: ["required", "float",])
@@ -95,11 +98,12 @@ type Mutation {
   updateCategory(input: UpdateCategoryInput @spread): Category @update(model: "App\\Models\\Category")
 
 
-  createBrand(input: CreateBrandInput!): Brand @create(model: "App\\Models\\Brand")
-  updateBrand(input: UpdateBrandInput!): Brand @update(model: "App\\Models\\Brand")
+  createBrand(input: CreateBrandInput @spread): Brand @create(model: "App\\Models\\Brand")
+  updateBrand(input: UpdateBrandInput @spread): Brand @update(model: "App\\Models\\Brand")
  
 
-  createProduct(input: CreateProductInput!): Product @create(model: "App\\Models\\Product")
-  updateProduct(input: UpdateProductInput!): Product @update(model: "App\\Models\\Product")
+  createProduct(input: CreateProductInput @spread): Product @create(model: "App\\Models\\Product")
+  updateProduct(input: UpdateProductInput @spread): Product @update(model: "App\\Models\\Product")
+  deleteProduct(id: ID @spread): Boolean @delete(model: "App\\Models\\Product")
   
 }
